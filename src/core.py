@@ -18,14 +18,15 @@ logger = logging.getLogger(__name__)
 class DouyinDownloader:
     """抖音下载器主类"""
 
-    def __init__(self, async_mode: bool = True):
+    def __init__(self, cookie: Optional[str] = None, async_mode: bool = True):
         """
         初始化下载器
 
         Args:
+            cookie: 抖音 Cookie（可选）
             async_mode: 是否使用异步模式（默认 True）
         """
-        self.api = DouyinAPI()
+        self.api = DouyinAPI(cookie)
         self.async_mode = async_mode
 
         if async_mode:

@@ -12,13 +12,20 @@ from typing import Dict, Any, Optional
 class DouyinAPI:
     """抖音 API 客户端"""
 
-    def __init__(self):
+    def __init__(self, cookie: Optional[str] = None):
         self.session = requests.Session()
         self.session.headers.update({
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
             "Referer": "https://www.douyin.com/",
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         })
+        if cookie:
+            # 解析 Cookie 字符串并设置
+            for item in cookie.split(';'):
+                item = item.strip()
+                if '=' in item:
+                    name, value = item.split('=', 1)
+                    self.session.cookies.set(name.strip(), value.strip())
 
     def resolve_share_url(self, share_url: str) -> Optional[str]:
         """
